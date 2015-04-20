@@ -35,4 +35,5 @@ Required Android API >= 11
         }
     });
     alertDialog.setNegButtonText("Cancel");
+    alertDialog.showDialog();
     
