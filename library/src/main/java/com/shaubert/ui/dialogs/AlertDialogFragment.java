@@ -80,10 +80,10 @@ public class AlertDialogFragment extends DialogFragment {
     }
 
     public static AlertDialogFragment newInstance(CharSequence title, CharSequence message, CharSequence posButtonText,
-            CharSequence neutralButtonText, CharSequence negButtonText, Integer widht, Integer height, boolean hasListView,
+            CharSequence neutralButtonText, CharSequence negButtonText, Integer width, Integer height, boolean hasListView,
             int customWindowAnimationStyle) {
         Bundle args = getBundle(title, message, posButtonText, neutralButtonText, negButtonText,
-                widht, height, hasListView, customWindowAnimationStyle);
+                width, height, hasListView, customWindowAnimationStyle);
 
         AlertDialogFragment result = new AlertDialogFragment();
         result.setArguments(args);
@@ -91,7 +91,7 @@ public class AlertDialogFragment extends DialogFragment {
     }
 
     protected static Bundle getBundle(CharSequence title, CharSequence message, CharSequence posButtonText,
-                                      CharSequence neutralButtonText, CharSequence negButtonText, Integer widht,
+                                      CharSequence neutralButtonText, CharSequence negButtonText, Integer width,
                                       Integer height, boolean hasListView, int customWindowAnimationStyle) {
         Bundle args = new Bundle();
         args.putCharSequence(ATTR_TITLE, title);
@@ -100,8 +100,8 @@ public class AlertDialogFragment extends DialogFragment {
         args.putCharSequence(ATTR_NEUT_BUTTON_TEXT, neutralButtonText);
         args.putCharSequence(ATTR_NEG_BUTTON_TEXT, negButtonText);
         args.putBoolean(ATTR_HAS_LIST_VIEW, hasListView);
-        if (widht != null) {
-            args.putInt(ATTR_WIDTH, widht);
+        if (width != null) {
+            args.putInt(ATTR_WIDTH, width);
         }
         if (height != null) {
             args.putInt(ATTR_HEIGHT, height);

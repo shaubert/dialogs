@@ -7,7 +7,7 @@ Android FragmentDialog builders
         maven{url "https://github.com/shaubert/maven-repo/raw/master/releases"}
     }
     dependencies {
-        compile 'com.shaubert.ui.adapters:library:1.0.1'
+        compile 'com.shaubert.ui.adapters:library:1.0.2'
     }
     
 ## Android

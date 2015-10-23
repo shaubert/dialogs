@@ -1,4 +1,4 @@
-package com.shaubert.ui.dialogs.commons;
+package com.shaubert.ui.dialogs;
 
 import android.app.Activity;
 import android.content.Context;
@@ -6,7 +6,7 @@ import android.os.Handler;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
-public class Keyboard {
+class Keyboard {
 
     public static void hideKeyboard(Activity activity) {
         hideKeyboard(activity.getCurrentFocus());

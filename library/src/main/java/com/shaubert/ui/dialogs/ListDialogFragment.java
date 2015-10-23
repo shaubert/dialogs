@@ -11,7 +11,6 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import com.shaubert.ui.adapters.AdaptersCarousel;
-import com.shaubert.ui.dialogs.commons.Sizes;
 
 public class ListDialogFragment extends DialogFragment {
 

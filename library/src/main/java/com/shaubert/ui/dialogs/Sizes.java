@@ -1,12 +1,12 @@
 
-package com.shaubert.ui.dialogs.commons;
+package com.shaubert.ui.dialogs;
 
 import android.content.Context;
 import android.content.res.Resources;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 
-public class Sizes {
+class Sizes {
 
     /**
      * This method converts dp unit to equivalent device specific value in
