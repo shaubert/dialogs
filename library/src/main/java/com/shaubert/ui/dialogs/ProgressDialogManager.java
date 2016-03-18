@@ -15,8 +15,6 @@ public class ProgressDialogManager extends AbstractDialogManager {
     private NumberFormat percentProgressFormat;
     private String numberFormat;
     private boolean spinner = true;
-    private OnCancelListener cancelListener;
-    private boolean cancellable;
 
     public ProgressDialogManager(FragmentActivity activity, String tag) {
         this(activity.getSupportFragmentManager(), tag);
@@ -74,41 +72,22 @@ public class ProgressDialogManager extends AbstractDialogManager {
     }
 
     public ProgressDialogManager setCancellable(boolean cancellable) {
-        this.cancellable = cancellable;
-        return this;
+        return (ProgressDialogManager) super.setCancellable(cancellable);
     }
 
     public ProgressDialogManager setCancelListener(OnCancelListener cancelListener) {
-        this.cancelListener = cancelListener;
-        if (cancelListener != null) {
-            setCancellable(true);
-        }
+        return (ProgressDialogManager) super.setCancelListener(cancelListener);
+    }
 
-        ProgressDialogFragment fragment = findDialog();
-        setCancleListener(fragment);
-
-        return this;
+    @Override
+    public ProgressDialogManager setCanceledOnTouchOutside(boolean canceledOnTouchOutside) {
+        return (ProgressDialogManager) super.setCanceledOnTouchOutside(canceledOnTouchOutside);
     }
 
     @Override
     protected DialogFragment createDialog() {
         return ProgressDialogFragment.newInstance(
                 title, message, spinner, numberFormat, percentProgressFormat);
-    }
-
-    @Override
-    protected void prepareDialog(DialogFragment dialogFragment) {
-        super.prepareDialog(dialogFragment);
-
-        ProgressDialogFragment progressDialogFragment = (ProgressDialogFragment) dialogFragment;
-        setCancleListener(progressDialogFragment);
-    }
-
-    private void setCancleListener(ProgressDialogFragment dialogFragment) {
-        if (dialogFragment != null) {
-            dialogFragment.setCancelable(cancellable);
-            dialogFragment.setCancelListener(cancelListener);
-        }
     }
 
 }

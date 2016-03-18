@@ -4,7 +4,6 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
 import android.text.TextUtils;
 import android.view.*;
 import android.widget.AdapterView;
@@ -12,13 +11,11 @@ import android.widget.BaseAdapter;
 import android.widget.ListView;
 import com.shaubert.ui.adapters.AdaptersCarousel;
 
-public class ListDialogFragment extends DialogFragment {
+public class ListDialogFragment extends CancellableDialogFragment {
 
     public static final String ATTR_TITLE = "title";
     public static final String ATTR_WIDTH = "width";
     public static final String ATTR_HEIGHT = "height";
-
-    private DialogInterface.OnCancelListener cancelListener;
 
     private OnClickListener onItemClickListener;
     private AdaptersCarousel adapterWrapper = new AdaptersCarousel();
@@ -54,13 +51,6 @@ public class ListDialogFragment extends DialogFragment {
             args.putInt(ATTR_HEIGHT, height);
         }
         return args;
-    }
-
-    public void setCancelListener(DialogInterface.OnCancelListener cancelListener) {
-        this.cancelListener = cancelListener;
-        if (cancelListener != null) {
-            setCancelable(true);
-        }
     }
 
     public void setOnItemClickListener(OnClickListener onItemClickListener) {
@@ -135,14 +125,6 @@ public class ListDialogFragment extends DialogFragment {
             }
 
             getDialog().getWindow().setAttributes(attributes);
-        }
-    }
-
-    @Override
-    public void onCancel(DialogInterface dialog) {
-        super.onCancel(dialog);
-        if (cancelListener != null) {
-            cancelListener.onCancel(dialog);
         }
     }
 

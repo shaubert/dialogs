@@ -1,6 +1,7 @@
 package com.shaubert.ui.dialogs;
 
 
+import android.content.DialogInterface;
 import android.os.Handler;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
@@ -14,10 +15,38 @@ public abstract class AbstractDialogManager implements DialogManager {
     private int style = DialogFragment.STYLE_NORMAL;
     private int theme;
 
+    private DialogInterface.OnCancelListener cancelListener;
+    private boolean cancellable;
+    private boolean canceledOnTouchOutside = true;
+
     public AbstractDialogManager(String tag, FragmentManager manager) {
         this.tag = tag;
         this.manager = manager;
         this.handler = new Handler();
+    }
+
+    public AbstractDialogManager setCancellable(boolean cancellable) {
+        this.cancellable = cancellable;
+        return this;
+    }
+
+    public AbstractDialogManager setCanceledOnTouchOutside(boolean canceledOnTouchOutside) {
+        this.canceledOnTouchOutside = canceledOnTouchOutside;
+        if (canceledOnTouchOutside) {
+            setCancellable(true);
+        }
+        return this;
+    }
+
+    public AbstractDialogManager setCancelListener(DialogInterface.OnCancelListener cancelListener) {
+        this.cancelListener = cancelListener;
+        if (cancelListener != null) {
+            setCancellable(true);
+        }
+
+        setCancelListener(findDialog());
+
+        return this;
     }
 
     public int getStyle() {
@@ -88,6 +117,17 @@ public abstract class AbstractDialogManager implements DialogManager {
 
     protected void prepareDialog(DialogFragment dialogFragment) {
         dialogFragment.setStyle(style, theme);
+        setCancelListener(dialogFragment);
+    }
+
+    private void setCancelListener(DialogFragment dialogFragment) {
+        if (dialogFragment != null) {
+            dialogFragment.setCancelable(cancellable);
+            if (dialogFragment instanceof CancellableDialogFragment) {
+                ((CancellableDialogFragment) dialogFragment).setCanceledOnTouchOutside(canceledOnTouchOutside); setCancelListener(cancelListener);
+                ((CancellableDialogFragment) dialogFragment).setCancelListener(cancelListener);
+            }
+        }
     }
 
     @Override

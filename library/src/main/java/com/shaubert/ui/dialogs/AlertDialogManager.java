@@ -20,7 +20,6 @@ public class AlertDialogManager extends AbstractDialogManager {
     protected int dialogHeight = DIMENSION_NOT_SET;
     protected int customWindowAnimationStyle;
 
-    private OnCancelListener cancelListener;
     private OnClickListener posButtonListener;
     private OnClickListener neutButtonListener;
     private OnClickListener negButtonListener;
@@ -31,8 +30,6 @@ public class AlertDialogManager extends AbstractDialogManager {
 
     private BaseAdapter listAdapter;
     private OnClickListener itemClickListener;
-
-    private boolean cancellable;
 
     public AlertDialogManager(FragmentActivity activity, String tag) {
         this(activity.getSupportFragmentManager(), tag);
@@ -52,8 +49,16 @@ public class AlertDialogManager extends AbstractDialogManager {
     }
 
     public AlertDialogManager setCancellable(boolean cancellable) {
-        this.cancellable = cancellable;
-        return this;
+        return (AlertDialogManager) super.setCancellable(cancellable);
+    }
+
+    public AlertDialogManager setCancelListener(OnCancelListener cancelListener) {
+        return (AlertDialogManager) super.setCancelListener(cancelListener);
+    }
+
+    @Override
+    public AlertDialogManager setCanceledOnTouchOutside(boolean canceledOnTouchOutside) {
+        return (AlertDialogManager) super.setCanceledOnTouchOutside(canceledOnTouchOutside);
     }
 
     public AlertDialogManager setMessage(CharSequence message) {
@@ -84,12 +89,6 @@ public class AlertDialogManager extends AbstractDialogManager {
     public AlertDialogManager setOnItemClickListener(OnClickListener itemClickListener) {
         this.itemClickListener = itemClickListener;
         setOnItemClickListener(this.<AlertDialogFragment>findDialog());
-        return this;
-    }
-
-    public AlertDialogManager setCancelListener(OnCancelListener cancelListener) {
-        this.cancelListener = cancelListener;
-        setCancelListener(this.<AlertDialogFragment>findDialog());
         return this;
     }
 
@@ -169,7 +168,6 @@ public class AlertDialogManager extends AbstractDialogManager {
         if (listAdapter != null) {
             alertDialogFragment.setListAdapter(listAdapter);
         }
-        setCancelListener(alertDialogFragment);
         setPosListener(alertDialogFragment);
         setNeutListener(alertDialogFragment);
         setNegListener(alertDialogFragment);
@@ -182,13 +180,6 @@ public class AlertDialogManager extends AbstractDialogManager {
     private void setOnItemClickListener(AlertDialogFragment dialogFragment) {
         if (dialogFragment != null) {
             dialogFragment.setOnItemClickListener(itemClickListener);
-        }
-    }
-
-    private void setCancelListener(AlertDialogFragment dialogFragment) {
-        if (dialogFragment != null) {
-            dialogFragment.setCancelable(cancellable);
-            dialogFragment.setCancelListener(cancelListener);
         }
     }
 

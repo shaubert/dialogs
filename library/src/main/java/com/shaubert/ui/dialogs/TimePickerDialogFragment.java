@@ -5,13 +5,12 @@ import android.app.Dialog;
 import android.app.TimePickerDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
 import android.text.TextUtils;
 import android.text.format.DateFormat;
 import android.view.KeyEvent;
 import android.widget.TimePicker;
 
-public class TimePickerDialogFragment extends DialogFragment {
+public class TimePickerDialogFragment extends CancellableDialogFragment {
 
     public static TimePickerDialogFragment newInstance(CharSequence title, int hour,
             int minutes, boolean h24) {
@@ -26,14 +25,9 @@ public class TimePickerDialogFragment extends DialogFragment {
     }
 
     private TimePickerDialog.OnTimeSetListener timeSetListener;
-    private DialogInterface.OnCancelListener cancelListener;
 
     public void setTimeSetListener(TimePickerDialog.OnTimeSetListener timeSetListener) {
         this.timeSetListener = timeSetListener;
-    }
-
-    public void setCancelListener(DialogInterface.OnCancelListener cancelListener) {
-        this.cancelListener = cancelListener;
     }
 
     @Override
@@ -67,14 +61,6 @@ public class TimePickerDialogFragment extends DialogFragment {
             dialog.setTitle(title);
         }
         return dialog;
-    }
-
-    @Override
-    public void onCancel(DialogInterface dialog) {
-        super.onCancel(dialog);
-        if (cancelListener != null) {
-            cancelListener.onCancel(dialog);
-        }
     }
 
 }

@@ -12,9 +12,6 @@ public class DatePickerDialogManager extends AbstractDialogManager {
 
     private DatePickerDialog.OnDateSetListener dateSetListener;
 
-    private OnCancelListener cancelListener;
-    private boolean cancellable;
-
     private int day;
     private int month;
     private int year;
@@ -32,14 +29,16 @@ public class DatePickerDialogManager extends AbstractDialogManager {
     }
 
     public DatePickerDialogManager setCancellable(boolean cancellable) {
-        this.cancellable = cancellable;
-        return this;
+        return (DatePickerDialogManager) super.setCancellable(cancellable);
     }
 
     public DatePickerDialogManager setCancelListener(OnCancelListener cancelListener) {
-        this.cancelListener = cancelListener;
-        setCancelListener(this.<DatePickerDialogFragment> findDialog());
-        return this;
+        return (DatePickerDialogManager) super.setCancelListener(cancelListener);
+    }
+
+    @Override
+    public DatePickerDialogManager setCanceledOnTouchOutside(boolean canceledOnTouchOutside) {
+        return (DatePickerDialogManager) super.setCanceledOnTouchOutside(canceledOnTouchOutside);
     }
 
     public DatePickerDialogManager setDateSetListener(DatePickerDialog.OnDateSetListener dateSetListener) {
@@ -88,15 +87,7 @@ public class DatePickerDialogManager extends AbstractDialogManager {
         super.prepareDialog(dialogFragment);
 
         DatePickerDialogFragment datePickerDialogFragment = (DatePickerDialogFragment) dialogFragment;
-        setCancelListener(datePickerDialogFragment);
         setDateSetListener(datePickerDialogFragment);
-    }
-
-    private void setCancelListener(DatePickerDialogFragment dialogFragment) {
-        if (dialogFragment != null) {
-            dialogFragment.setCancelable(cancellable);
-            dialogFragment.setCancelListener(cancelListener);
-        }
     }
 
     private void setDateSetListener(DatePickerDialogFragment dialogFragment) {

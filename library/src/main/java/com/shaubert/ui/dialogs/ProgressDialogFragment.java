@@ -3,16 +3,12 @@ package com.shaubert.ui.dialogs;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
-import android.content.DialogInterface.OnCancelListener;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
 import android.view.KeyEvent;
 
 import java.text.NumberFormat;
 
-public class ProgressDialogFragment extends DialogFragment {
-
-    private OnCancelListener cancelListener;
+public class ProgressDialogFragment extends CancellableDialogFragment {
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -76,18 +72,6 @@ public class ProgressDialogFragment extends DialogFragment {
     @Override
     public ProgressDialog getDialog() {
         return (ProgressDialog) super.getDialog();
-    }
-
-    @Override
-    public void onCancel(DialogInterface dialog) {
-        super.onCancel(dialog);
-        if (cancelListener != null) {
-            cancelListener.onCancel(dialog);
-        }
-    }
-
-    public void setCancelListener(OnCancelListener cancelListener) {
-        this.cancelListener = cancelListener;
     }
 
     public static ProgressDialogFragment newInstance(CharSequence title, CharSequence message, boolean spinner,

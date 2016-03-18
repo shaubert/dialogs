@@ -11,9 +11,6 @@ public class TimePickerDialogManager extends AbstractDialogManager {
 
     private TimePickerDialog.OnTimeSetListener timeSetListener;
 
-    private OnCancelListener cancelListener;
-    private boolean cancellable;
-
     private int hour;
     private int minutes;
     private boolean h24;
@@ -31,14 +28,16 @@ public class TimePickerDialogManager extends AbstractDialogManager {
     }
 
     public TimePickerDialogManager setCancellable(boolean cancellable) {
-        this.cancellable = cancellable;
-        return this;
+        return (TimePickerDialogManager) super.setCancellable(cancellable);
     }
 
     public TimePickerDialogManager setCancelListener(OnCancelListener cancelListener) {
-        this.cancelListener = cancelListener;
-        setCancelListener(this.<TimePickerDialogFragment> findDialog());
-        return this;
+        return (TimePickerDialogManager) super.setCancelListener(cancelListener);
+    }
+
+    @Override
+    public TimePickerDialogManager setCanceledOnTouchOutside(boolean canceledOnTouchOutside) {
+        return (TimePickerDialogManager) super.setCanceledOnTouchOutside(canceledOnTouchOutside);
     }
 
     public TimePickerDialogManager setTimeSetListener(TimePickerDialog.OnTimeSetListener timeSetListener) {
@@ -77,15 +76,7 @@ public class TimePickerDialogManager extends AbstractDialogManager {
         super.prepareDialog(dialogFragment);
 
         TimePickerDialogFragment timePickerDialogFragment = (TimePickerDialogFragment) dialogFragment;
-        setCancelListener(timePickerDialogFragment);
         setTimeSetListener(timePickerDialogFragment);
-    }
-
-    private void setCancelListener(TimePickerDialogFragment dialogFragment) {
-        if (dialogFragment != null) {
-            dialogFragment.setCancelable(cancellable);
-            dialogFragment.setCancelListener(cancelListener);
-        }
     }
 
     private void setTimeSetListener(TimePickerDialogFragment fragment) {

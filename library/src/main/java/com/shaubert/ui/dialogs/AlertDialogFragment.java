@@ -6,7 +6,6 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
 import android.view.ContextThemeWrapper;
 import android.view.KeyEvent;
 import android.view.View;
@@ -17,7 +16,7 @@ import android.widget.Button;
 import android.widget.ListView;
 import com.shaubert.ui.adapters.AdaptersCarousel;
 
-public class AlertDialogFragment extends DialogFragment {
+public class AlertDialogFragment extends CancellableDialogFragment {
 
     public static final String ATTR_TITLE = "title";
     public static final String ATTR_MESSAGE = "message";
@@ -35,7 +34,6 @@ public class AlertDialogFragment extends DialogFragment {
     private OnClickListener posClickListener;
     private OnClickListener neutClickListener;
     private OnClickListener negClickListener;
-    private DialogInterface.OnCancelListener cancelListener;
 
     private OnClickListener onItemClickListener;
     private AdaptersCarousel adapterWrapper = new AdaptersCarousel();
@@ -120,13 +118,6 @@ public class AlertDialogFragment extends DialogFragment {
 
     public void setNegClickListener(OnClickListener negClickListener) {
         this.negClickListener = negClickListener;
-    }
-
-    public void setCancelListener(DialogInterface.OnCancelListener cancelListener) {
-        this.cancelListener = cancelListener;
-        if (cancelListener != null) {
-            setCancelable(true);
-        }
     }
 
     public void setOnItemClickListener(OnClickListener onItemClickListener) {
@@ -259,14 +250,6 @@ public class AlertDialogFragment extends DialogFragment {
 
     protected boolean dispatchOnBackPressed() {
         return false;
-    }
-
-    @Override
-    public void onCancel(DialogInterface dialog) {
-        super.onCancel(dialog);
-        if (cancelListener != null) {
-            cancelListener.onCancel(dialog);
-        }
     }
 
     public void setMessage(CharSequence message) {

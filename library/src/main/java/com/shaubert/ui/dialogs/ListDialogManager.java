@@ -15,12 +15,8 @@ public class ListDialogManager extends AbstractDialogManager {
     protected int dialogWidth = DIMENSION_NOT_SET;
     protected int dialogHeight = DIMENSION_NOT_SET;
 
-    private OnCancelListener cancelListener;
-
     private BaseAdapter listAdapter;
     private OnClickListener itemClickListener;
-
-    private boolean cancellable;
 
     public ListDialogManager(FragmentActivity activity, String tag) {
         this(activity.getSupportFragmentManager(), tag);
@@ -36,8 +32,16 @@ public class ListDialogManager extends AbstractDialogManager {
     }
 
     public ListDialogManager setCancellable(boolean cancellable) {
-        this.cancellable = cancellable;
-        return this;
+        return (ListDialogManager) super.setCancellable(cancellable);
+    }
+
+    public ListDialogManager setCancelListener(OnCancelListener cancelListener) {
+        return (ListDialogManager) super.setCancelListener(cancelListener);
+    }
+
+    @Override
+    public ListDialogManager setCanceledOnTouchOutside(boolean canceledOnTouchOutside) {
+        return (ListDialogManager) super.setCanceledOnTouchOutside(canceledOnTouchOutside);
     }
 
     public ListDialogManager setLayout(int width, int height) {
@@ -58,12 +62,6 @@ public class ListDialogManager extends AbstractDialogManager {
         return this;
     }
 
-    public ListDialogManager setCancelListener(OnCancelListener cancelListener) {
-        this.cancelListener = cancelListener;
-        setCancelListener(this.<ListDialogFragment>findDialog());
-        return this;
-    }
-
     @Override
     protected DialogFragment createDialog() {
         return ListDialogFragment.newInstance(title,
@@ -78,7 +76,6 @@ public class ListDialogManager extends AbstractDialogManager {
         if (listAdapter != null) {
             listDialogFragment.setListAdapter(listAdapter);
         }
-        setCancelListener(listDialogFragment);
         setOnItemClickListener(listDialogFragment);
         setListAdapter(listDialogFragment);
     }
@@ -86,13 +83,6 @@ public class ListDialogManager extends AbstractDialogManager {
     private void setOnItemClickListener(ListDialogFragment dialogFragment) {
         if (dialogFragment != null) {
             dialogFragment.setOnItemClickListener(itemClickListener);
-        }
-    }
-
-    private void setCancelListener(ListDialogFragment dialogFragment) {
-        if (dialogFragment != null) {
-            dialogFragment.setCancelable(cancellable);
-            dialogFragment.setCancelListener(cancelListener);
         }
     }
 

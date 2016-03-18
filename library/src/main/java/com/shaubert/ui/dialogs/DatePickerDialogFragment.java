@@ -5,14 +5,13 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
-import android.support.v4.app.DialogFragment;
 import android.text.TextUtils;
 import android.view.KeyEvent;
 import android.widget.DatePicker;
 
 import java.util.Date;
 
-public class DatePickerDialogFragment extends DialogFragment {
+public class DatePickerDialogFragment extends CancellableDialogFragment {
 
     public static DatePickerDialogFragment newInstance(CharSequence title, int year,
             int monthOfYear, int dayOfMonth, Date minDate, Date maxDate) {
@@ -29,14 +28,9 @@ public class DatePickerDialogFragment extends DialogFragment {
     }
 
     private DatePickerDialog.OnDateSetListener dateSetListener;
-    private DialogInterface.OnCancelListener cancelListener;
 
     public void setDateSetListener(DatePickerDialog.OnDateSetListener dateSetListener) {
         this.dateSetListener = dateSetListener;
-    }
-
-    public void setCancelListener(DialogInterface.OnCancelListener cancelListener) {
-        this.cancelListener = cancelListener;
     }
 
     @Override
@@ -79,14 +73,6 @@ public class DatePickerDialogFragment extends DialogFragment {
             dialog.getDatePicker().setMaxDate(maxDate);
         }
         return dialog;
-    }
-
-    @Override
-    public void onCancel(DialogInterface dialog) {
-        super.onCancel(dialog);
-        if (cancelListener != null) {
-            cancelListener.onCancel(dialog);
-        }
     }
 
     public static class CustomDatePickerDialog extends DatePickerDialog {
