@@ -124,7 +124,7 @@ public abstract class AbstractDialogManager implements DialogManager {
         if (dialogFragment != null) {
             dialogFragment.setCancelable(cancellable);
             if (dialogFragment instanceof CancellableDialogFragment) {
-                ((CancellableDialogFragment) dialogFragment).setCanceledOnTouchOutside(canceledOnTouchOutside); setCancelListener(cancelListener);
+                ((CancellableDialogFragment) dialogFragment).setCanceledOnTouchOutside(canceledOnTouchOutside);
                 ((CancellableDialogFragment) dialogFragment).setCancelListener(cancelListener);
             }
         }
