@@ -27,7 +27,8 @@ public class Dialogs {
                     transaction.commit();
                 }
             } catch (Exception ex) {
-                DIALOGS_EXCEPTION_HANDLER.uncaughtException(Thread.currentThread(), ex);
+                DIALOGS_EXCEPTION_HANDLER.uncaughtException(Thread.currentThread(),
+                        new RuntimeException("failed to show dialog with tag " + tag, ex));
             }
         }
     }
