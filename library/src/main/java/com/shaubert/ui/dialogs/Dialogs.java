@@ -3,12 +3,32 @@ package com.shaubert.ui.dialogs;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 
 public class Dialogs {
 
+    public static boolean ALLOW_STATE_LOSS = false;
+    public static Thread.UncaughtExceptionHandler DIALOGS_EXCEPTION_HANDLER = new Thread.UncaughtExceptionHandler() {
+        @Override
+        public void uncaughtException(Thread thread, Throwable ex) {
+            throw new RuntimeException(ex);
+        }
+    };
+
     public static void show(FragmentManager manager, DialogFragment fragment, String tag) {
         if (manager.findFragmentByTag(tag) == null) {
-            fragment.show(manager, tag);
+            try {
+                FragmentTransaction transaction = manager
+                        .beginTransaction()
+                        .add(fragment, tag);
+                if (ALLOW_STATE_LOSS) {
+                    transaction.commitAllowingStateLoss();
+                } else {
+                    transaction.commit();
+                }
+            } catch (Exception ex) {
+                DIALOGS_EXCEPTION_HANDLER.uncaughtException(Thread.currentThread(), ex);
+            }
         }
     }
 
