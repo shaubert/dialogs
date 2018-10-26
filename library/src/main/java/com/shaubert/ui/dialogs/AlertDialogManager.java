@@ -19,6 +19,7 @@ public class AlertDialogManager extends AbstractDialogManager {
     protected int dialogWidth = DIMENSION_NOT_SET;
     protected int dialogHeight = DIMENSION_NOT_SET;
     protected int customWindowAnimationStyle;
+    protected int customViewLayoutResId;
 
     private OnClickListener posButtonListener;
     private OnClickListener neutButtonListener;
@@ -152,13 +153,25 @@ public class AlertDialogManager extends AbstractDialogManager {
         return this;
     }
 
+    public AlertDialogManager setCustomViewLayoutResId(int customViewLayoutResId) {
+        this.customViewLayoutResId = customViewLayoutResId;
+        return this;
+    }
+
     @Override
     protected DialogFragment createDialog() {
-        return AlertDialogFragment.newInstance(title, message,
-                posButtonText, neutButtonText, negButtonText,
+        return AlertDialogFragment.newInstance(
+                title,
+                message,
+                posButtonText,
+                neutButtonText,
+                negButtonText,
                 dialogWidth == DIMENSION_NOT_SET ? null : dialogWidth,
                 dialogHeight == DIMENSION_NOT_SET ? null : dialogHeight,
-                listAdapter != null, customWindowAnimationStyle);
+                listAdapter != null,
+                customWindowAnimationStyle,
+                customViewLayoutResId
+        );
     }
 
     @Override

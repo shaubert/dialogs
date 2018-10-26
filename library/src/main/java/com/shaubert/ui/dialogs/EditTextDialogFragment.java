@@ -14,12 +14,30 @@ public class EditTextDialogFragment extends AlertDialogFragment {
     public static final String EDITTEXT_LAYOUT_RES_ID = "edittext-layout-res-id";
     public static final String EDITTEXT_TEXT = "edittext-text";
 
-    public static Bundle getBundle(CharSequence title, CharSequence message, CharSequence posButtonText,
-                                                  CharSequence neutralButtonText, CharSequence negButtonText, Integer widht,
-                                                  Integer height, int customWindowAnimationStyle,
-                                                  int editTextLayoutResId, CharSequence text) {
-        Bundle args = getBundle(title, message, posButtonText, neutralButtonText, negButtonText,
-                widht, height, false, customWindowAnimationStyle);
+    public static Bundle getBundle(
+            CharSequence title,
+            CharSequence message,
+            CharSequence posButtonText,
+            CharSequence neutralButtonText,
+            CharSequence negButtonText,
+            Integer width,
+            Integer height,
+            int customWindowAnimationStyle,
+            int editTextLayoutResId,
+            CharSequence text
+    ) {
+        Bundle args = getBundle(
+                title,
+                message,
+                posButtonText,
+                neutralButtonText,
+                negButtonText,
+                width,
+                height,
+                false,
+                customWindowAnimationStyle,
+                0
+        );
         args.putInt(EDITTEXT_LAYOUT_RES_ID, editTextLayoutResId);
         args.putCharSequence(EDITTEXT_TEXT, text);
         return args;
@@ -34,7 +52,7 @@ public class EditTextDialogFragment extends AlertDialogFragment {
 
         int layout = getArguments().getInt(EDITTEXT_LAYOUT_RES_ID, -1);
         if (layout > 0) {
-            LayoutInflater inflater = LayoutInflater.from(getActivity());
+            LayoutInflater inflater = LayoutInflater.from(builder.getContext());
             View view = inflater.inflate(layout, null);
             setupCustomView(view);
             builder.setView(view);
@@ -57,7 +75,7 @@ public class EditTextDialogFragment extends AlertDialogFragment {
     }
 
     @SuppressWarnings("unchecked")
-    protected  <T> T find(View view, Class<T> clazz) {
+    protected <T> T find(View view, Class<T> clazz) {
         if (clazz.isAssignableFrom(view.getClass())) {
             return (T) view;
         } else if (view instanceof ViewGroup) {

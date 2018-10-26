@@ -5,18 +5,17 @@ repositories {
 }
 
 dependencies {
-    compile "com.android.support:support-v4:23.2.1"
+    implementation "com.android.support:support-v4:23.1.1"
 
-    compile "com.shaubert.ui.adapters:library:1.2.5"
+    implementation "com.shaubert.ui.adapters:library:1.2.15"
 }
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion '22.0.1'
+    compileSdkVersion 27
 
     defaultConfig {
-        minSdkVersion 11
-        targetSdkVersion 23
+        minSdkVersion 14
+        targetSdkVersion 27
     }
 }
 
