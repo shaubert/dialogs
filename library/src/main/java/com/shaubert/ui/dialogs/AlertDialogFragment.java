@@ -8,12 +8,14 @@ import android.os.Build;
 import android.os.Bundle;
 import android.view.ContextThemeWrapper;
 import android.view.KeyEvent;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+
 import com.shaubert.ui.adapters.AdaptersCarousel;
 
 public class AlertDialogFragment extends CancellableDialogFragment {
@@ -30,6 +32,7 @@ public class AlertDialogFragment extends CancellableDialogFragment {
     public static final String ATTR_NEG_BUTTON_DISABLED = "neg_button_disabled";
     public static final String ATTR_NEUT_BUTTON_DISABLED = "neut_button_disabled";
     public static final String ATTR_CUSTOM_WINDOW_ANIMATION = "custom_window_animation";
+    public static final String ATTR_CUSTOM_VIEW_LAYOUT_RES_ID = "custom_view_layout_res_id";
 
     private OnClickListener posClickListener;
     private OnClickListener neutClickListener;
@@ -72,25 +75,69 @@ public class AlertDialogFragment extends CancellableDialogFragment {
         }
     };
 
-    public static AlertDialogFragment newInstance(CharSequence title, CharSequence message, CharSequence posButtonText,
-                                                  CharSequence neutralButtonText, CharSequence negButtonText) {
-        return newInstance(title, message, posButtonText, neutralButtonText, negButtonText, null, null, false, -1);
+    public static AlertDialogFragment newInstance(
+            CharSequence title,
+            CharSequence message,
+            CharSequence posButtonText,
+            CharSequence neutralButtonText,
+            CharSequence negButtonText
+    ) {
+        return newInstance(
+                title,
+                message,
+                posButtonText,
+                neutralButtonText,
+                negButtonText,
+                null,
+                null,
+                false,
+                -1,
+                0
+        );
     }
 
-    public static AlertDialogFragment newInstance(CharSequence title, CharSequence message, CharSequence posButtonText,
-            CharSequence neutralButtonText, CharSequence negButtonText, Integer width, Integer height, boolean hasListView,
-            int customWindowAnimationStyle) {
-        Bundle args = getBundle(title, message, posButtonText, neutralButtonText, negButtonText,
-                width, height, hasListView, customWindowAnimationStyle);
+    public static AlertDialogFragment newInstance(
+            CharSequence title,
+            CharSequence message,
+            CharSequence posButtonText,
+            CharSequence neutralButtonText,
+            CharSequence negButtonText,
+            Integer width,
+            Integer height,
+            boolean hasListView,
+            int customWindowAnimationStyle,
+            int customViewLayoutResId
+    ) {
+        Bundle args = getBundle(
+                title,
+                message,
+                posButtonText,
+                neutralButtonText,
+                negButtonText,
+                width,
+                height,
+                hasListView,
+                customWindowAnimationStyle,
+                customViewLayoutResId
+        );
 
         AlertDialogFragment result = new AlertDialogFragment();
         result.setArguments(args);
         return result;
     }
 
-    protected static Bundle getBundle(CharSequence title, CharSequence message, CharSequence posButtonText,
-                                      CharSequence neutralButtonText, CharSequence negButtonText, Integer width,
-                                      Integer height, boolean hasListView, int customWindowAnimationStyle) {
+    protected static Bundle getBundle(
+            CharSequence title,
+            CharSequence message,
+            CharSequence posButtonText,
+            CharSequence neutralButtonText,
+            CharSequence negButtonText,
+            Integer width,
+            Integer height,
+            boolean hasListView,
+            int customWindowAnimationStyle,
+            int customViewLayoutResId
+    ) {
         Bundle args = new Bundle();
         args.putCharSequence(ATTR_TITLE, title);
         args.putCharSequence(ATTR_MESSAGE, message);
@@ -105,6 +152,7 @@ public class AlertDialogFragment extends CancellableDialogFragment {
             args.putInt(ATTR_HEIGHT, height);
         }
         args.putInt(ATTR_CUSTOM_WINDOW_ANIMATION, customWindowAnimationStyle);
+        args.putInt(ATTR_CUSTOM_VIEW_LAYOUT_RES_ID, customViewLayoutResId);
         return args;
     }
 
@@ -192,13 +240,14 @@ public class AlertDialogFragment extends CancellableDialogFragment {
         CharSequence neut = getArguments().getCharSequence(ATTR_NEUT_BUTTON_TEXT);
         CharSequence neg = getArguments().getCharSequence(ATTR_NEG_BUTTON_TEXT);
         boolean hasListView = getArguments().getBoolean(ATTR_HAS_LIST_VIEW, false);
+        int customViewLayoutResId = getArguments().getInt(ATTR_CUSTOM_VIEW_LAYOUT_RES_ID, 0);
 
         AlertDialog.Builder builder = null;
         int customTheme = getTheme();
         if (customTheme != 0) {
             if (customTheme >= 0x01000000) {   // start of real resource IDs.
                 builder = new AlertDialog.Builder(new ContextThemeWrapper(getActivity(), customTheme));
-            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB) {
+            } else {
                 builder = new AlertDialog.Builder(getActivity(), customTheme);
             }
         }
@@ -233,7 +282,7 @@ public class AlertDialogFragment extends CancellableDialogFragment {
         }
 
         if (hasListView) {
-            ListView list = new ListView(getActivity());
+            ListView list = new ListView(builder.getContext());
             list.setPadding(0, 0, 0, 0);
             list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
@@ -244,7 +293,15 @@ public class AlertDialogFragment extends CancellableDialogFragment {
             list.setCacheColorHint(getActivity().getResources().getColor(android.R.color.transparent));
             list.setAdapter(adapterWrapper);
             builder.setView(list);
+        } else if (customViewLayoutResId != 0) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                builder.setView(customViewLayoutResId);
+            } else {
+                LayoutInflater inflater = LayoutInflater.from(builder.getContext());
+                builder.setView(inflater.inflate(customViewLayoutResId, null));
+            }
         }
+
         return builder;
     }
 
