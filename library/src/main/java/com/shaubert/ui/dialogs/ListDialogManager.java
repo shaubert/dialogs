@@ -2,9 +2,9 @@ package com.shaubert.ui.dialogs;
 
 import android.content.DialogInterface.OnCancelListener;
 import android.content.DialogInterface.OnClickListener;
-import android.support.v4.app.DialogFragment;
-import android.support.v4.app.FragmentActivity;
-import android.support.v4.app.FragmentManager;
+import androidx.fragment.app.DialogFragment;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
 import android.widget.BaseAdapter;
 
 public class ListDialogManager extends AbstractDialogManager {

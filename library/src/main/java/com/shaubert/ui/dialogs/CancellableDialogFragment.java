@@ -2,7 +2,7 @@ package com.shaubert.ui.dialogs;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
-import android.support.v4.app.DialogFragment;
+import androidx.fragment.app.DialogFragment;
 
 public class CancellableDialogFragment extends DialogFragment {
 
