@@ -16,11 +16,23 @@ public class Dialogs {
     };
 
     public static void show(FragmentManager manager, DialogFragment fragment, String tag) {
-        if (manager.findFragmentByTag(tag) == null) {
+        show(manager, fragment, tag, false);
+    }
+
+    public static void show(FragmentManager manager,
+                            DialogFragment fragment,
+                            String tag,
+                            boolean allowReplace) {
+        if (!isOperational(manager)) return;
+
+        Fragment existingFragment = manager.findFragmentByTag(tag);
+        if (existingFragment == null || allowReplace) {
             try {
-                FragmentTransaction transaction = manager
-                        .beginTransaction()
-                        .add(fragment, tag);
+                FragmentTransaction transaction = manager.beginTransaction();
+                if (existingFragment != null) {
+                    transaction.remove(existingFragment);
+                }
+                transaction.add(fragment, tag);
                 if (ALLOW_STATE_LOSS) {
                     transaction.commitAllowingStateLoss();
                 } else {
@@ -34,11 +46,17 @@ public class Dialogs {
     }
 
     public static void dismiss(FragmentManager manager, String tag) {
+        if (!isOperational(manager)) return;
+
         Fragment fragment = manager.findFragmentByTag(tag);
         if (fragment != null) {
             manager.beginTransaction()
-            .remove(fragment)
-            .commitAllowingStateLoss();
+                    .remove(fragment)
+                    .commitAllowingStateLoss();
         }
+    }
+
+    private static boolean isOperational(FragmentManager manager) {
+        return !manager.isDestroyed() && !manager.isStateSaved();
     }
 }

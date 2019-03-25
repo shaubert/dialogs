@@ -2,16 +2,15 @@ package com.shaubert.ui.dialogs;
 
 
 import android.content.DialogInterface;
-import android.os.Handler;
+import android.util.Log;
+
 import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
-import android.util.Log;
 
 public abstract class AbstractDialogManager implements DialogManager {
 
     private String tag;
     private FragmentManager manager;
-    private Handler handler;
     private int style = DialogFragment.STYLE_NORMAL;
     private int theme;
 
@@ -22,7 +21,6 @@ public abstract class AbstractDialogManager implements DialogManager {
     public AbstractDialogManager(String tag, FragmentManager manager) {
         this.tag = tag;
         this.manager = manager;
-        this.handler = new Handler();
     }
 
     public AbstractDialogManager setCancellable(boolean cancellable) {
@@ -92,19 +90,7 @@ public abstract class AbstractDialogManager implements DialogManager {
 
     @Override
     public void showDialog() {
-        if (findDialog() != null) {
-            hideDialog();
-
-            //if we hide and add fragment with same tag in same transaction we'll get IllegalState
-            handler.post(new Runnable() {
-                @Override
-                public void run() {
-                    Dialogs.show(manager, getDialog(), tag);
-                }
-            });
-        } else {
-            Dialogs.show(manager, getDialog(), tag);
-        }
+        Dialogs.show(manager, getDialog(), tag, true);
     }
 
     protected DialogFragment getDialog() {
