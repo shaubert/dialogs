@@ -1,6 +1,5 @@
 package com.shaubert.ui.dialogs;
 
-import android.app.AlertDialog;
 import android.os.Bundle;
 import android.os.Handler;
 import android.text.TextUtils;
@@ -8,6 +7,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+
+import androidx.appcompat.app.AlertDialog;
 
 public class EditTextDialogFragment extends AlertDialogFragment {
 

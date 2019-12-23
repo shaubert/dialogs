@@ -1,6 +1,5 @@
 package com.shaubert.ui.dialogs;
 
-import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
@@ -15,6 +14,8 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+
+import androidx.appcompat.app.AlertDialog;
 
 import com.shaubert.ui.adapters.AdaptersCarousel;
 

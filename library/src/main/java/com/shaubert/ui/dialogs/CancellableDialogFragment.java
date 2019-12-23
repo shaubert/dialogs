@@ -2,9 +2,10 @@ package com.shaubert.ui.dialogs;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
-import androidx.fragment.app.DialogFragment;
 
-public class CancellableDialogFragment extends DialogFragment {
+import androidx.appcompat.app.AppCompatDialogFragment;
+
+public class CancellableDialogFragment extends AppCompatDialogFragment {
 
     private DialogInterface.OnCancelListener cancelListener;
     private boolean canceledOnTouchOutside;
