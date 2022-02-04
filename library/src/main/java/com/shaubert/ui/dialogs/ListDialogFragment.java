@@ -9,6 +9,9 @@ import android.view.*;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
+
+import androidx.appcompat.app.AppCompatDialog;
+
 import com.shaubert.ui.adapters.AdaptersCarousel;
 
 public class ListDialogFragment extends CancellableDialogFragment {
@@ -76,7 +79,11 @@ public class ListDialogFragment extends CancellableDialogFragment {
         Dialog dialog = super.onCreateDialog(savedInstanceState);
         CharSequence title = getArguments().getCharSequence(ATTR_TITLE);
         if (TextUtils.isEmpty(title)) {
-            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            if (dialog instanceof AppCompatDialog) {
+                ((AppCompatDialog) dialog).supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
+            } else {
+                dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            }
         } else {
             dialog.setTitle(title);
         }
